@@ -1,0 +1,25 @@
+{
+  "name": "dream-house",
+  "version": "1.0.0",
+  "description": "Web application for searching properties",
+  "main": "server.js",
+  "scripts": {
+    "install": "npm --prefix server install && npm --prefix client install",
+    "start": "node server.js",
+    "heroku-postbuild": "npm --prefix client run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DwinaTech/dream-house.git"
+  },
+  "author": "Mohammed Dwina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DwinaTech/dream-house/issues"
+  },
+  "homepage": "https://github.com/DwinaTech/dream-house#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
