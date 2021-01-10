@@ -124,10 +124,14 @@ const App = () => {
     return "";
   };
 
+  const createMarkup = (text) => {
+    return { __html: text };
+  };
+
   if (!categories.length) {
     return null;
   }
-
+  console.log({ quizData });
   return (
     <Container>
       <h1>Quiz App:</h1>
@@ -221,30 +225,26 @@ const App = () => {
           <Grid item xs={12}>
             {quizData.map((quiz) => (
               <div key={quiz.question}>
-                <p>Question: {quiz.question}</p>
-                {
-                  <FormControl fullWidth>
-                    <InputLabel id="answer-select-label">
-                      Select answer:
-                    </InputLabel>
-                    <Select
-                      required
-                      name="answer"
-                      id="answer-select"
-                      value={
-                        relatedAnswer(quiz.question, selectedAnswers) || ""
-                      }
-                      labelId="answer-select-label"
-                      onChange={(e) => handleAnswerChange(e, quiz.question)}
-                    >
-                      {quiz.answers.map((answer) => (
-                        <MenuItem key={answer} value={answer}>
-                          {answer}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                }
+                <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
+                <FormControl fullWidth>
+                  <InputLabel id="answer-select-label">
+                    Select answer:
+                  </InputLabel>
+                  <Select
+                    required
+                    name="answer"
+                    id="answer-select"
+                    value={relatedAnswer(quiz.question, selectedAnswers) || ""}
+                    labelId="answer-select-label"
+                    onChange={(e) => handleAnswerChange(e, quiz.question)}
+                  >
+                    {quiz.answers.map((answer) => (
+                      <MenuItem key={answer} value={answer}>
+                        {answer}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
             ))}
           </Grid>
