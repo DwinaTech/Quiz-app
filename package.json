@@ -1,5 +1,5 @@
 {
-  "name": "dream-house",
+  "name": "quiz-app",
   "version": "1.0.0",
   "description": "Web application for searching properties",
   "main": "server.js",
