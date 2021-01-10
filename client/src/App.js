@@ -1,14 +1,17 @@
 import {
   Grid,
-  Input,
+  Paper,
   Select,
   Button,
   MenuItem,
+  TextField,
   Container,
+  Typography,
   InputLabel,
   FormControl,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import "./App.css";
 
@@ -23,16 +26,45 @@ const answersTypeData = [
   { id: "boolean", name: "True / False" },
 ];
 
+const useStyles = makeStyles((theme) => {
+  console.log({ theme });
+  return {
+    paper: {
+      padding: "20px",
+      marginTop: "20px",
+      borderRadius: "20px",
+      boxShadow:
+        "0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
+    },
+    mainTitle: {
+      fontSize: "45px",
+      marginBottom: "20px",
+    },
+    submitButton: {
+      marginTop: "20px",
+      borderRadius: "999px",
+      background: "#9c27b0",
+      "&:hover": {
+        backgroundColor: "#9c27b0",
+        boxShadow:
+          "0 14px 26px -12px rgba(156, 39, 176, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(156, 39, 176, 0.2)",
+      },
+    },
+  };
+});
+
 const App = () => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState({ id: "", name: "" });
 
-  const [quizNumber, setQuizNumber] = useState(0);
+  const [quizNumber, setQuizNumber] = useState(null);
   const [answerType, setAnswerType] = useState("");
   const [difficulty, setDifficulty] = useState({ id: "", name: "" });
 
   const [quizData, setQuizData] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+
+  const classes = useStyles();
 
   const fetchQuizData = async () => {
     try {
@@ -134,122 +166,138 @@ const App = () => {
   console.log({ quizData });
   return (
     <Container>
-      <h1>Quiz App:</h1>
-      {!quizData || !quizData.length ? (
-        <form onSubmit={handleSubmit}>
-          {" "}
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="category-select-label">
-                  Select category:
-                </InputLabel>
-                <Select
-                  required
-                  name="category"
-                  id="category-select"
-                  value={category.id}
-                  labelId="category-select-label"
-                  onChange={handleSelectChange}
-                >
-                  {categories.map((category) => (
-                    <MenuItem key={category.id} value={category.id}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="difficulty-select-label">
-                  Select Difficulty:
-                </InputLabel>
-                <Select
-                  required
-                  name="difficulty"
-                  id="difficulty-select"
-                  value={difficulty.id}
-                  labelId="difficulty-select-label"
-                  onChange={handleDifficultyChange}
-                >
-                  {difficulties.map((difficulty) => (
-                    <MenuItem key={difficulty.id} value={difficulty.id}>
-                      {difficulty.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="answer-type-select-label">
-                  Select type:
-                </InputLabel>
-                <Select
-                  required
-                  name="answer-type"
-                  id="answer-type-select"
-                  value={answerType}
-                  labelId="answer-type-select-label"
-                  onChange={handleAnswerTypeChange}
-                >
-                  {answersTypeData.map((type) => (
-                    <MenuItem key={type.id} value={type.id}>
-                      {type.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Input
-                inputProps={{ min: 1, max: 10 }}
-                required
-                fullWidth
-                type="number"
-                id="quiz-number"
-                name="quiz-number"
-                label={`Add a quiz number from 1 to 10`}
-                value={quizNumber}
-                onChange={handleChange}
-              />
-            </Grid>
-          </Grid>
-          <Button type="submit" size="medium" variant="contained">
-            Submit
-          </Button>
-        </form>
-      ) : (
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
-            {quizData.map((quiz) => (
-              <div key={quiz.question}>
-                <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
-                <FormControl fullWidth>
-                  <InputLabel id="answer-select-label">
-                    Select answer:
+      <Paper className={classes.paper}>
+        <Typography variant="h1" className={classes.mainTitle}>
+          Quiz App
+        </Typography>
+        {!quizData || !quizData.length ? (
+          <form onSubmit={handleSubmit}>
+            {" "}
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel id="category-select-label">
+                    Select category:
                   </InputLabel>
                   <Select
                     required
-                    name="answer"
-                    id="answer-select"
-                    value={relatedAnswer(quiz.question, selectedAnswers) || ""}
-                    labelId="answer-select-label"
-                    onChange={(e) => handleAnswerChange(e, quiz.question)}
+                    name="category"
+                    value={category.id}
+                    id="category-select"
+                    label="Select category"
+                    labelId="category-select-label"
+                    onChange={handleSelectChange}
                   >
-                    {quiz.answers.map((answer) => (
-                      <MenuItem key={answer} value={answer}>
-                        {answer}
+                    {categories.map((category) => (
+                      <MenuItem key={category.id} value={category.id}>
+                        {category.name}
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
-              </div>
-            ))}
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel id="difficulty-select-label">
+                    Select Difficulty:
+                  </InputLabel>
+                  <Select
+                    required
+                    name="difficulty"
+                    value={difficulty.id}
+                    id="difficulty-select"
+                    label="Select Difficulty"
+                    labelId="difficulty-select-label"
+                    onChange={handleDifficultyChange}
+                  >
+                    {difficulties.map((difficulty) => (
+                      <MenuItem key={difficulty.id} value={difficulty.id}>
+                        {difficulty.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel id="answer-type-select-label">
+                    Select type:
+                  </InputLabel>
+                  <Select
+                    required
+                    name="answer-type"
+                    value={answerType}
+                    label="Select type"
+                    id="answer-type-select"
+                    labelId="answer-type-select-label"
+                    onChange={handleAnswerTypeChange}
+                  >
+                    {answersTypeData.map((type) => (
+                      <MenuItem key={type.id} value={type.id}>
+                        {type.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  inputProps={{ min: 1, max: 10 }}
+                  required
+                  fullWidth
+                  type="number"
+                  id="quiz-number"
+                  variant="outlined"
+                  name="quiz-number"
+                  label={`Add a quiz number from 1 to 10`}
+                  value={quizNumber || ""}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              className={classes.submitButton}
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              Submit
+            </Button>
+          </form>
+        ) : (
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              {quizData.map((quiz) => (
+                <div key={quiz.question}>
+                  <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="answer-select-label">
+                      Select answer:
+                    </InputLabel>
+                    <Select
+                      required
+                      name="answer"
+                      id="answer-select"
+                      label="Select answer"
+                      value={
+                        relatedAnswer(quiz.question, selectedAnswers) || ""
+                      }
+                      labelId="answer-select-label"
+                      onChange={(e) => handleAnswerChange(e, quiz.question)}
+                    >
+                      {quiz.answers.map((answer) => (
+                        <MenuItem key={answer} value={answer}>
+                          {answer}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+              ))}
+            </Grid>
           </Grid>
-        </Grid>
-      )}
+        )}
+      </Paper>
     </Container>
   );
 };
