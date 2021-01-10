@@ -1,3 +1,12 @@
 .App {
   text-align: center;
 }
+
+@keyframes enter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
