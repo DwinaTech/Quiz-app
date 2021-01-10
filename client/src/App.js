@@ -96,6 +96,10 @@ const App = () => {
     }
   };
 
+  const handleResult = (e) => {
+    e.preventDefault();
+  };
+
   const handleAnswerTypeChange = (e) => {
     e.preventDefault();
     setAnswerType(e.target.value);
@@ -265,37 +269,47 @@ const App = () => {
             </Button>
           </form>
         ) : (
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              {quizData.map((quiz) => (
-                <div key={quiz.question}>
-                  <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
-                  <FormControl fullWidth variant="outlined">
-                    <InputLabel id="answer-select-label">
-                      Select answer:
-                    </InputLabel>
-                    <Select
-                      required
-                      name="answer"
-                      id="answer-select"
-                      label="Select answer"
-                      value={
-                        relatedAnswer(quiz.question, selectedAnswers) || ""
-                      }
-                      labelId="answer-select-label"
-                      onChange={(e) => handleAnswerChange(e, quiz.question)}
-                    >
-                      {quiz.answers.map((answer) => (
-                        <MenuItem key={answer} value={answer}>
-                          {answer}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-              ))}
+          <form onSubmit={handleResult}>
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                {quizData.map((quiz) => (
+                  <div key={quiz.question}>
+                    <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
+                    <FormControl fullWidth variant="outlined">
+                      <InputLabel id="answer-select-label">
+                        Select answer:
+                      </InputLabel>
+                      <Select
+                        required
+                        name="answer"
+                        id="answer-select"
+                        label="Select answer"
+                        value={
+                          relatedAnswer(quiz.question, selectedAnswers) || ""
+                        }
+                        labelId="answer-select-label"
+                        onChange={(e) => handleAnswerChange(e, quiz.question)}
+                      >
+                        {quiz.answers.map((answer) => (
+                          <MenuItem key={answer} value={answer}>
+                            {answer}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                ))}
+                <Button
+                  className={classes.submitButton}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Result
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
+          </form>
         )}
       </Paper>
     </Container>
