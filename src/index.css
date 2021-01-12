@@ -5,7 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #dddddd;
+  background-image: url("https://github.com/DwinaTech/public-images/blob/main/quiz-background.jpg?raw=true");
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: #ffffff;
 }
 
