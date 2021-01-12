@@ -58,7 +58,6 @@ const App = () => {
   const [category, setCategory] = useState({ id: "", name: "" });
 
   const [quizNumber, setQuizNumber] = useState(null);
-  const [answerType, setAnswerType] = useState("");
   const [difficulty, setDifficulty] = useState({ id: "", name: "" });
 
   const [quizData, setQuizData] = useState([]);
@@ -68,7 +67,7 @@ const App = () => {
 
   const fetchQuizData = async () => {
     try {
-      const url = `https://opentdb.com/api.php?amount=${quizNumber}&category=${category.id}&difficulty=${difficulty.name}&type=${answerType}`;
+      const url = `https://opentdb.com/api.php?amount=${quizNumber}&category=${category.id}&difficulty=${difficulty.name}`;
       const { data } = await axios.get(url);
       const formattedCategory = data.results.map((cat) => ({
         ...cat,
@@ -98,11 +97,6 @@ const App = () => {
 
   const handleResult = (e) => {
     e.preventDefault();
-  };
-
-  const handleAnswerTypeChange = (e) => {
-    e.preventDefault();
-    setAnswerType(e.target.value);
   };
 
   const handleSelectChange = (e) => {
@@ -217,28 +211,6 @@ const App = () => {
                     {difficulties.map((difficulty) => (
                       <MenuItem key={difficulty.id} value={difficulty.id}>
                         {difficulty.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel id="answer-type-select-label">
-                    Select type:
-                  </InputLabel>
-                  <Select
-                    required
-                    name="answer-type"
-                    value={answerType}
-                    label="Select type"
-                    id="answer-type-select"
-                    labelId="answer-type-select-label"
-                    onChange={handleAnswerTypeChange}
-                  >
-                    {answersTypeData.map((type) => (
-                      <MenuItem key={type.id} value={type.id}>
-                        {type.name}
                       </MenuItem>
                     ))}
                   </Select>
