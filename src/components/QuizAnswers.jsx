@@ -10,7 +10,6 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import { createMarkup } from "../helpers";
-import AnswersReview from "./AnswersReview";
 import TotalResults from "./TotalResults";
 
 const QuizAnswers = ({
@@ -125,20 +124,15 @@ const QuizAnswers = ({
         </Grid>
       </form>
     </>
-  ) : currentQuizStep === "results" ? (
+  ) : (
     <TotalResults
       classes={classes}
       resetQuiz={resetQuiz}
+      currentQuizStep={currentQuizStep}
       processedAnswers={processedAnswers}
       setCurrentQuizStep={setCurrentQuizStep}
     />
-  ) : currentQuizStep === "review" ? (
-    <AnswersReview
-      classes={classes}
-      resetQuiz={resetQuiz}
-      processedAnswers={processedAnswers}
-    />
-  ) : null;
+  );
 };
 
 export default QuizAnswers;
