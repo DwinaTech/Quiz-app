@@ -5,16 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("https://github.com/DwinaTech/public-images/blob/main/quiz-background.jpg?raw=true");
   min-height: 100vh;
-  background-repeat: no-repeat;
-  background-size: cover;
   color: #ffffff;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://github.com/DwinaTech/public-images/blob/main/quiz-background.jpg?raw=true");
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

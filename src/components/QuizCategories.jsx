@@ -10,11 +10,11 @@ import {
   InputLabel,
   FormControl,
 } from "@material-ui/core";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import QuizAnswers from "./QuizAnswers";
 import { styles, difficulties, createMarkup } from "../helpers";
+import QuizAnswers from "./QuizAnswers";
 
 const useStyles = makeStyles((theme) => {
   return styles;
@@ -115,7 +115,6 @@ const QuizCategories = () => {
               Get Questions:
             </Typography>
             <form onSubmit={handleSubmit}>
-              {" "}
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <FormControl fullWidth variant="outlined">
