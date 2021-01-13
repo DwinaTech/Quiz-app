@@ -1,5 +1,6 @@
 import { Button, Typography } from "@material-ui/core";
 import AnswersReview from "./AnswersReview";
+import { useEffect } from "react";
 
 const TotalResults = ({
   classes,
@@ -7,8 +8,11 @@ const TotalResults = ({
   currentQuizStep,
   processedAnswers,
   setCurrentQuizStep,
-}) =>
-  currentQuizStep === "results" ? (
+}) => {
+  useEffect(() => {
+    window.scrollTo(0, "20px");
+  }, []);
+  return currentQuizStep === "results" ? (
     <div className={classes.results}>
       <Typography variant="h1" className={classes.mainTitle}>
         Results
@@ -43,5 +47,6 @@ const TotalResults = ({
       processedAnswers={processedAnswers}
     />
   );
+};
 
 export default TotalResults;

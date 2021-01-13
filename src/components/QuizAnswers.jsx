@@ -8,7 +8,7 @@ import {
   InputLabel,
   FormControl,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createMarkup } from "../helpers";
 import TotalResults from "./TotalResults";
 
@@ -76,6 +76,10 @@ const QuizAnswers = ({
     }
     return "";
   };
+
+  useEffect(() => {
+    window.scrollTo(0, "20px");
+  }, []);
 
   return !processedAnswers || !processedAnswers.length ? (
     <>

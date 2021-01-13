@@ -63,6 +63,7 @@ const QuizCategories = () => {
 
   useEffect(() => {
     fetchCategories();
+    window.scrollTo(0, "20px");
   }, []);
 
   const handleSubmit = (e) => {
@@ -100,6 +101,7 @@ const QuizCategories = () => {
     setQuizNumber("");
     setDifficulty("");
     setCurrentQuizStep("start");
+    window.scrollTo(0, "20px");
   };
 
   if (!categories.length) {
