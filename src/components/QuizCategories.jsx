@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import QuizAnswers from "./QuizAnswers";
-import { styles, difficulties, answersTypeData } from "../helpers";
+import { styles, difficulties, createMarkup } from "../helpers";
 
 const useStyles = makeStyles((theme) => {
   return styles;
@@ -102,81 +102,87 @@ const QuizCategories = () => {
   return (
     <Container>
       <Paper className={classes.paper}>
-        <Typography variant="h1" className={classes.mainTitle}>
-          Quiz App
-        </Typography>
         {currentQuizStep === "start" ? (
-          <form onSubmit={handleSubmit}>
-            {" "}
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel id="category-select-label">
-                    Select category:
-                  </InputLabel>
-                  <Select
+          <>
+            <Typography variant="h1" className={classes.mainTitle}>
+              Get Questions:
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              {" "}
+              <Grid container spacing={4}>
+                <Grid item xs={12}>
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="category-select-label">
+                      Select category:
+                    </InputLabel>
+                    <Select
+                      required
+                      name="category"
+                      value={category.id || ""}
+                      id="category-select"
+                      label="Select category"
+                      labelId="category-select-label"
+                      onChange={handleSelectChange}
+                    >
+                      {categories.map((category) => (
+                        <MenuItem key={category.id} value={category.id}>
+                          <span
+                            dangerouslySetInnerHTML={createMarkup(
+                              category.name
+                            )}
+                          />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="difficulty-select-label">
+                      Select Difficulty:
+                    </InputLabel>
+                    <Select
+                      required
+                      name="difficulty"
+                      value={difficulty.id || ""}
+                      id="difficulty-select"
+                      label="Select Difficulty"
+                      labelId="difficulty-select-label"
+                      onChange={handleDifficultyChange}
+                    >
+                      {difficulties.map((difficulty) => (
+                        <MenuItem key={difficulty.id} value={difficulty.id}>
+                          {difficulty.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    inputProps={{ min: 1, max: 10 }}
                     required
-                    name="category"
-                    value={category.id || ""}
-                    id="category-select"
-                    label="Select category"
-                    labelId="category-select-label"
-                    onChange={handleSelectChange}
-                  >
-                    {categories.map((category) => (
-                      <MenuItem key={category.id} value={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                    fullWidth
+                    type="number"
+                    id="quiz-number"
+                    variant="outlined"
+                    name="quiz-number"
+                    label={`Add a quiz number from 1 to 10`}
+                    value={quizNumber || ""}
+                    onChange={handleChange}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel id="difficulty-select-label">
-                    Select Difficulty:
-                  </InputLabel>
-                  <Select
-                    required
-                    name="difficulty"
-                    value={difficulty.id || ""}
-                    id="difficulty-select"
-                    label="Select Difficulty"
-                    labelId="difficulty-select-label"
-                    onChange={handleDifficultyChange}
-                  >
-                    {difficulties.map((difficulty) => (
-                      <MenuItem key={difficulty.id} value={difficulty.id}>
-                        {difficulty.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  inputProps={{ min: 1, max: 10 }}
-                  required
-                  fullWidth
-                  type="number"
-                  id="quiz-number"
-                  variant="outlined"
-                  name="quiz-number"
-                  label={`Add a quiz number from 1 to 10`}
-                  value={quizNumber || ""}
-                  onChange={handleChange}
-                />
-              </Grid>
-            </Grid>
-            <Button
-              className={classes.submitButton}
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
-              Submit
-            </Button>
-          </form>
+              <Button
+                className={classes.submitButton}
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
+                Submit
+              </Button>
+            </form>
+          </>
         ) : (
           <QuizAnswers
             classes={classes}

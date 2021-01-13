@@ -7,16 +7,18 @@ import {
   InputLabel,
   FormControl,
 } from "@material-ui/core";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { createMarkup } from "../helpers";
+import AnswersReview from "./AnswersReview";
 
 const QuizAnswers = ({ quizData, classes, resetQuiz }) => {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [calculatedAnswers, setCalculatedAnswers] = useState([]);
+  const [processedAnswers, setProcessedAnswers] = useState([]);
 
   const handleResult = (e) => {
     e.preventDefault();
 
-    const calculatedAnswers = selectedAnswers.map(({ answer, question }) => {
+    const processedAnswers = selectedAnswers.map(({ answer, question }) => {
       const relatedQuestion = quizData.find(
         (category) => category.question === question
       );
@@ -31,7 +33,7 @@ const QuizAnswers = ({ quizData, classes, resetQuiz }) => {
       };
     });
 
-    setCalculatedAnswers(calculatedAnswers);
+    setProcessedAnswers(processedAnswers);
   };
 
   const handleAnswerChange = (e, selectedQuestion) => {
@@ -68,60 +70,57 @@ const QuizAnswers = ({ quizData, classes, resetQuiz }) => {
     return "";
   };
 
-  const createMarkup = (text) => {
-    return { __html: text };
-  };
-
-  return !calculatedAnswers || !calculatedAnswers.length ? (
-    <form onSubmit={handleResult}>
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          {quizData.map((quiz) => (
-            <div key={quiz.question}>
-              <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
-              <FormControl fullWidth variant="outlined">
-                <InputLabel id="answer-select-label">Select answer:</InputLabel>
-                <Select
-                  required
-                  name="answer"
-                  id="answer-select"
-                  label="Select answer"
-                  value={relatedAnswer(quiz.question, selectedAnswers) || ""}
-                  labelId="answer-select-label"
-                  onChange={(e) => handleAnswerChange(e, quiz.question)}
-                >
-                  {quiz.answers.map((answer) => (
-                    <MenuItem key={answer} value={answer}>
-                      {answer}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-          ))}
-          <Button
-            className={classes.submitButton}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Result
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
-  ) : (
+  return !processedAnswers || !processedAnswers.length ? (
     <>
-      <h2>Answers ....</h2>
-      <Button
-        className={classes.submitButton}
-        onClick={resetQuiz}
-        variant="contained"
-        color="primary"
-      >
-        Reset
-      </Button>
+      <Typography variant="h1" className={classes.mainTitle}>
+        Answer flowing Questions:
+      </Typography>
+      <form onSubmit={handleResult}>
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            {quizData.map((quiz) => (
+              <div key={quiz.question}>
+                <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel id="answer-select-label">
+                    Select answer:
+                  </InputLabel>
+                  <Select
+                    required
+                    name="answer"
+                    id="answer-select"
+                    label="Select answer"
+                    value={relatedAnswer(quiz.question, selectedAnswers) || ""}
+                    labelId="answer-select-label"
+                    onChange={(e) => handleAnswerChange(e, quiz.question)}
+                  >
+                    {quiz.answers.map((answer) => (
+                      <MenuItem key={answer} value={answer}>
+                        <span dangerouslySetInnerHTML={createMarkup(answer)} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            ))}
+            <Button
+              className={classes.submitButton}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Result
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     </>
+  ) : (
+    <AnswersReview
+      classes={classes}
+      resetQuiz={resetQuiz}
+      processedAnswers={processedAnswers}
+    />
   );
 };
 
