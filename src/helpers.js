@@ -33,6 +33,17 @@ export const styles = {
     fontWeight: "500",
     lineHeight: "25px",
     marginLeft: "10px",
+    display: "flex",
+  },
+  correctAnswer: {
+    color: "green",
+  },
+  results: {
+    display: "flex",
+    margin: "0 auto",
+    maxWidth: "150px",
+    textAlign: "center",
+    flexDirection: "column",
   },
 };
 

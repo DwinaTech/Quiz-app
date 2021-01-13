@@ -1,5 +1,6 @@
 import {
   Grid,
+  Paper,
   Select,
   Button,
   MenuItem,
@@ -10,8 +11,15 @@ import {
 import { useState } from "react";
 import { createMarkup } from "../helpers";
 import AnswersReview from "./AnswersReview";
+import TotalResults from "./TotalResults";
 
-const QuizAnswers = ({ quizData, classes, resetQuiz }) => {
+const QuizAnswers = ({
+  classes,
+  quizData,
+  resetQuiz,
+  currentQuizStep,
+  setCurrentQuizStep,
+}) => {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [processedAnswers, setProcessedAnswers] = useState([]);
 
@@ -79,8 +87,10 @@ const QuizAnswers = ({ quizData, classes, resetQuiz }) => {
         <Grid container spacing={4}>
           <Grid item xs={12}>
             {quizData.map((quiz) => (
-              <div key={quiz.question}>
-                <p dangerouslySetInnerHTML={createMarkup(quiz.question)} />
+              <Paper key={quiz.question} className={classes.paper}>
+                <Typography variant="h5" className={classes.question}>
+                  <span dangerouslySetInnerHTML={createMarkup(quiz.question)} />
+                </Typography>
                 <FormControl fullWidth variant="outlined">
                   <InputLabel id="answer-select-label">
                     Select answer:
@@ -101,7 +111,7 @@ const QuizAnswers = ({ quizData, classes, resetQuiz }) => {
                     ))}
                   </Select>
                 </FormControl>
-              </div>
+              </Paper>
             ))}
             <Button
               className={classes.submitButton}
@@ -115,13 +125,20 @@ const QuizAnswers = ({ quizData, classes, resetQuiz }) => {
         </Grid>
       </form>
     </>
-  ) : (
+  ) : currentQuizStep === "results" ? (
+    <TotalResults
+      classes={classes}
+      resetQuiz={resetQuiz}
+      processedAnswers={processedAnswers}
+      setCurrentQuizStep={setCurrentQuizStep}
+    />
+  ) : currentQuizStep === "review" ? (
     <AnswersReview
       classes={classes}
       resetQuiz={resetQuiz}
       processedAnswers={processedAnswers}
     />
-  );
+  ) : null;
 };
 
 export default QuizAnswers;

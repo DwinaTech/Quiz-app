@@ -190,6 +190,7 @@ const QuizCategories = () => {
             resetQuiz={resetQuiz}
             categories={categories}
             currentQuizStep={currentQuizStep}
+            setCurrentQuizStep={setCurrentQuizStep}
           />
         )}
       </Paper>

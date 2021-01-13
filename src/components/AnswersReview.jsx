@@ -1,4 +1,5 @@
 import { Paper, Button, Typography } from "@material-ui/core";
+import { Check, Close } from "@material-ui/icons";
 import { createMarkup } from "../helpers";
 
 const AnswersReview = ({ processedAnswers, classes, resetQuiz }) => {
@@ -11,19 +12,38 @@ const AnswersReview = ({ processedAnswers, classes, resetQuiz }) => {
           </Typography>
 
           {isCorrect ? (
-            <Typography variant="h2" className={classes.answer}>
-              Correct Answer:{" "}
-              <span dangerouslySetInnerHTML={createMarkup(correctAnswer)} />
+            <Typography
+              variant="h2"
+              className={`${classes.answer} ${classes.correctAnswer}`}
+            >
+              <Check />
+              <span
+                className={classes.answer}
+                dangerouslySetInnerHTML={createMarkup(correctAnswer)}
+              />
             </Typography>
           ) : (
             <>
-              <Typography variant="h3" className={classes.answer}>
-                Wrong Answer:{" "}
-                <span dangerouslySetInnerHTML={createMarkup(wrongAnswer)} />
+              <Typography
+                variant="h3"
+                color="secondary"
+                className={classes.answer}
+              >
+                <Close />
+                <span
+                  className={classes.answer}
+                  dangerouslySetInnerHTML={createMarkup(wrongAnswer)}
+                />
               </Typography>
-              <Typography variant="h3" className={classes.answer}>
-                Correct Answer:{" "}
-                <span dangerouslySetInnerHTML={createMarkup(correctAnswer)} />
+              <Typography
+                variant="h3"
+                className={`${classes.answer} ${classes.correctAnswer}`}
+              >
+                <Check />
+                <span
+                  className={classes.answer}
+                  dangerouslySetInnerHTML={createMarkup(correctAnswer)}
+                />
               </Typography>
             </>
           )}
