@@ -38,17 +38,22 @@ const QuizCategories = () => {
         category.id
       }&difficulty=${difficulty.name.toLowerCase()}`;
       const { data } = await axios.get(url);
+
       const formattedCategory = data.results.map((cat) => {
+
         const incorrectAnswersIndexes = cat.incorrect_answers.length;
         const randomIndex = Math.round(
           Math.random() * (incorrectAnswersIndexes - 0) + 0
         );
+
         cat.incorrect_answers.splice(randomIndex, 0, cat.correct_answer);
+        
         return {
           ...cat,
           answers: cat.incorrect_answers,
         };
       });
+
       setQuizData(formattedCategory);
       setCurrentQuizStep("results");
     } catch (error) {

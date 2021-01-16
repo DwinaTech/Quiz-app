@@ -53,11 +53,6 @@ export const difficulties = [
   { id: "total_hard_question_count", name: "Hard" },
 ];
 
-export const answersTypeData = [
-  { id: "multiple", name: "Multiple" },
-  { id: "boolean", name: "True / False" },
-];
-
 export const createMarkup = (text) => {
   return { __html: text };
 };
