@@ -12,5 +12,5 @@ It a responsive web application built using React.js, Martial-UI and Trivia API,
 
 ## UI
 ### Mobile, IPad and Desktop
-<img src="https://github.com/DwinaTech/public-images/blob/main/quiz-app.jpg?raw=true" alt="website-image" />
+<img src="https://github.com/DwinaTech/public-images/blob/main/thumbnail/quiz-app.jpg?raw=true" alt="website-image" />
 
