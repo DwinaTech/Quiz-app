@@ -2,6 +2,9 @@
 
 It a responsive web application built using React.js, Martial-UI and Trivia API, created for education and learning purpose.
 
+## Demo
+https://quiz-app-21.netlify.app/
+
 ## How to develop it
 
 - Clone on your local machine by using `git@github.com:DwinaTech/Quiz-app.git`
